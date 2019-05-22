@@ -23,13 +23,26 @@ public class TicketMachine
      * Note that the price must be greater than zero, and there
      * are no checks to ensure this.
      */
-    public TicketMachine(int ticketCost)
+    public TicketMachine()
     {
-        price = ticketCost;
+        price = 1000;
+        balance = 0;
+        total = 0;
+    }
+    
+    public TicketMachine(int ticketPrice)
+    {
+        price = ticketPrice;
         balance = 0;
         total = 0;
     }
 
+    /** 
+     * sets the price
+    */
+    public void setPrice(int ticketCost){
+        price = ticketCost;
+    }
     /**
      * Return the price of a ticket.
      */
@@ -46,6 +59,14 @@ public class TicketMachine
     {
         return balance;
     }
+    
+    /** 
+     * Return the amount of total.    
+    */
+    public int getTotal()
+    {
+        return total;
+    }
 
     /**
      * Receive an amount of money in cents from a customer.
@@ -53,6 +74,7 @@ public class TicketMachine
     public void insertMoney(int amount)
     {
         balance = balance + amount;
+        total += amount;
     }
 
     /**
@@ -62,17 +84,42 @@ public class TicketMachine
      */
     public void printTicket()
     {
-        // Simulate the printing of a ticket.
-        System.out.println("##################");
-        System.out.println("# The BlueJ Line");
-        System.out.println("# Ticket");
-        System.out.println("# " + price + " cents.");
-        System.out.println("##################");
-        System.out.println();
-
-        // Update the total collected with the balance.
-        total = total + balance;
-        // Clear the balance.
-        balance = 0;
+        int amountLeftToPay = price - balance;
+        
+        if(amountLeftToPay <= 0){
+            // Simulate the printing of a ticket.
+            System.out.println("##################");
+            System.out.println("# The BlueJ Line");
+            System.out.println("# Ticket");
+            System.out.println("# " + price + " cents.");
+            System.out.println("##################");
+            System.out.println();
+            
+            // Update the total collected with the balance.
+            total = total + balance;
+            // Clear the balance.
+            balance = 0;
+        } else {
+            prompt(amountLeftToPay);
+        }
+        
+    }
+    
+    /**
+     * Prompt prints to console
+    */
+    public void prompt(int due)
+    {
+        System.out.println("Please insert " + due + " more cents");
+    }
+    
+    public void showPrice()
+    {
+        System.out.println("The price of a ticket is: " + getPrice() + " cents");
+    }
+    
+    public void empty()
+    {
+        total = 0;
     }
 }
